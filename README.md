@@ -1,75 +1,78 @@
-# React + TypeScript + Vite
+# Frontend E2E — Aplicación de Viajes
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend de una aplicación de solicitud y gestión de viajes (estilo ride-hailing),
+construida con **React 19**, **TypeScript** y **Vite**. La interfaz maneja dos roles
+—**pasajero** y **conductor**— con autenticación por JWT y comunicación con un
+backend en Spring Boot.
 
-Currently, two official plugins are available:
+## Integrantes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Apellidos y Nombres | Código |
+| --- | --- |
+| Huertos Ochoa, Rodrigo Franco | 202510118 |
+| Valdiviezo Ortiz, José Rodrigo | 202510135 |
+| Ferrante Quino, Francesco Aroldo | 202510174 |
 
-## React Compiler
+## Descripción
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+La aplicación permite:
 
-## Expanding the ESLint configuration
+- **Autenticación** de usuarios mediante login y token JWT, con rutas protegidas
+  según el rol.
+- **Flujo del pasajero:** solicitar un viaje (dirección de recojo y destino),
+  ver el detalle y estado del viaje en curso, y calificar al conductor.
+- **Flujo del conductor:** ver los viajes disponibles, aceptar solicitudes y
+  gestionar el estado del viaje (pendiente → en progreso → completado).
+- **Historial** de viajes disponible para ambos roles.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tecnologías
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React 19** + **TypeScript**
+- **Vite** como bundler y servidor de desarrollo
+- **React Router DOM 7** para el ruteo y las rutas protegidas
+- **Tailwind CSS 4** para los estilos
+- **Axios** para el consumo de la API (con interceptores para el JWT)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Estructura del proyecto
 
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+src/
+├── api/            # Cliente Axios y llamadas al backend (auth, trips, drivers)
+├── auth/           # Contexto de autenticación y rutas protegidas
+├── components/     # Componentes reutilizables (StatusBadge, Placeholder)
+├── pages/
+│   ├── auth/       # Login
+│   ├── passenger/  # Dashboard, solicitud y detalle de viaje del pasajero
+│   ├── driver/     # Dashboard y detalle de viaje del conductor
+│   └── HistoryPage # Historial de viajes (ambos roles)
+├── types.ts        # Tipos de dominio (User, Trip, Role, TripStatus)
+├── App.tsx         # Definición de rutas
+└── main.tsx        # Punto de entrada
 ```
+
+## Requisitos previos
+
+- **Node.js** 18 o superior
+- El backend (Spring Boot) corriendo en `http://localhost:8080`
+  (configurable en `src/api/client.ts`).
+
+## Instalación y ejecución
+
+```bash
+# Instalar dependencias
+npm install
+
+# Levantar el servidor de desarrollo
+npm run dev
+
+# Compilar para producción
+npm run build
+
+# Previsualizar el build de producción
+npm run preview
+
+# Ejecutar el linter
+npm run lint
+```
+
+El servidor de desarrollo se levanta por defecto en `http://localhost:5173`.

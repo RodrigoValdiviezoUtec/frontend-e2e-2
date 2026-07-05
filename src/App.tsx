@@ -9,7 +9,6 @@ import DriverDashboard from './pages/driver/DriverDashboard';
 import DriverTripDetail from './pages/driver/DriverTripDetail';
 import HistoryPage from './pages/HistoryPage';
 
-// Raíz "/" : redirige según el estado de sesión y rol.
 function Home() {
   const { user, loading } = useAuth();
   if (loading) {
